@@ -36,6 +36,7 @@ function VariantOptions(options, allow_backorders) {
   var allow_backorders = allow_backorders;
   var variant, divs, parent, index = 0;
   var selection = [];
+  var base_price = $('#product-price .price').text();
   
   function init() {
     divs = $('#product-variants .variant-options'); 
@@ -172,7 +173,8 @@ function VariantOptions(options, allow_backorders) {
     } else {
       $('#variant_id').val('');
       $('button[type=submit]').attr('disabled', true).fadeTo(0, 0.5);
-      $('#product-price .price').addClass('unselected').text('(select)');
+      //$('#product-price .price').addClass('unselected').text('(select)');
+      $('#product-price .price').addClass('unselected').text(base_price);
     }    
   }
   
