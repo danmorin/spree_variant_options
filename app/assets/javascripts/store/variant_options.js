@@ -177,7 +177,6 @@ function VariantOptions(options, allow_backorders) {
   }
   
   function quantity_dropdown(max_quantity) {
-    console.log("Quantity: " + variant["count"]);
     var $quantity = $("#quantity");
     $quantity.empty();
     max_quantity = Math.min(10, max_quantity)
