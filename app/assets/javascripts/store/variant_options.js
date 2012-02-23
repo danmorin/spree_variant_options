@@ -160,6 +160,7 @@ function VariantOptions(options, allow_backorders) {
       
   function toggle() {
     if (variant) {
+      quantity_dropdown(variant["count"])
       $('#variant_id').val(variant.id);
       $('#product-price .price').removeClass('unselected').text(variant.price);      
       $('button[type=submit]').attr('disabled', false).fadeTo(100, 1);
@@ -173,6 +174,17 @@ function VariantOptions(options, allow_backorders) {
       $('button[type=submit]').attr('disabled', true).fadeTo(0, 0.5);
       $('#product-price .price').addClass('unselected').text('(select)');
     }    
+  }
+  
+  function quantity_dropdown(max_quantity) {
+    console.log("Quantity: " + variant["count"]);
+    var $quantity = $("#quantity");
+    $quantity.empty();
+    max_quantity = Math.min(10, max_quantity)
+    for (var i=1; i<=max_quantity; i++) {
+      $quantity.append($("<option></option>")
+           .attr("value", i).text(i));
+    }
   }
   
   function clear(i) {
