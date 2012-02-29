@@ -1,6 +1,6 @@
 <% if @product.has_variants? %>
   <div id="product-variants">
-        
+
     <% index = 0 %>
     <% @product.grouped_option_values.each do |type, values| %>
       <div id="<%= dom_id(type) %>" class="variant-options index-<%= index %>">
@@ -8,14 +8,17 @@
         <ul class="variant-option-values type_name_<%= type.name.tableize %> type_pres_<%= type.presentation.tableize %>">
         <% values.each do |value| %>
           <% classes = ["option-value"] %>
-          <% if index == 0 %>
             <% variants = @variants.select{|i| i.option_values.select{|j| j.option_type_id == type.id && j == value }.length == 1 } %>
             <% if variants.empty? %>
+              <% next %>
               <% classes << "unavailable" %>
             <% else %>
-              <% classes << ( Spree::Config[:allow_backorders] || variants.sum(&:count_on_hand) > 0 ? "in-stock" : "out-of-stock" ) %>
+              <% if Spree::Config[:allow_backorders] || variants.sum(&:count_on_hand) > 0 %>
+                <% classes << "in-stock" %>
+              <% else %>
+                <% next %>
+              <% end %>
             <% end %>
-          <% end %>
           <li>
             <%= link_to value.has_image? ? image_tag(value.image.url, :alt => value.presentation) : content_tag(:span, value.presentation), "#", :title => value.presentation, :class => classes.join(" "), :rel => "#{type.id}-#{value.id}" %>
           </li>

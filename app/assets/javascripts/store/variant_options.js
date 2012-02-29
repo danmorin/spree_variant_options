@@ -155,6 +155,13 @@ function VariantOptions(options, allow_backorders) {
       } else { 
         $('#product-price .price').html('<span class="price from">' + prices[0] + '</span> - <span class="price to">' + prices[prices.length - 1] + '</span>');
       }
+      
+      var image_ids = []
+      $.each(variants, function(key, value) { image_ids.push(value.image_id) });
+      if (image_ids.length > 0) {
+        select_image(image_ids[0]);
+      }
+      
       return false;
     }
   }
@@ -166,7 +173,8 @@ function VariantOptions(options, allow_backorders) {
       $('#product-price .price').removeClass('unselected').text(variant.price);      
       $('button[type=submit]').attr('disabled', false).fadeTo(100, 1);
       try {
-        show_variant_images(variant.id);
+        //show_variant_images(variant.id);
+        select_image(variant.image_id);
       } catch(error) {
         // depends on modified version of product.js  
       }
@@ -197,7 +205,6 @@ function VariantOptions(options, allow_backorders) {
       disable($(element).find('a.option-value').show().removeClass('in-stock out-of-stock').addClass('locked').unbind('click'));
       $(element).find('a.clear-button').hide();
     });
-    show_all_variant_images();
   }
    
   
