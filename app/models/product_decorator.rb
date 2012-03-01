@@ -17,7 +17,7 @@ Spree::Product.class_eval do
         [value.id.inspect, Hash[variants.includes(:option_values).select{ |variant| 
           variant.option_values.select{ |val| 
             val.id == value.id && val.option_type_id == type.id 
-          }.length == 1 }.map{ |v| [ v.id, { :id => v.id, :count => v.count_on_hand, :price => number_to_currency(v.price), :image_id => v.images.first.id } ] }]
+          }.length == 1 }.map{ |v| [ v.id, { :id => v.id, :count => v.count_on_hand, :price => number_to_currency(v.price), :image_id => v.images.first.try(:id) } ] }]
         ]
       }]]
     }]
