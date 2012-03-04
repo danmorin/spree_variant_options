@@ -13,12 +13,13 @@
         <th><%= t(:display) %></th>
         <th><%= t(:preview) %></th>
         <th><%= t(:image) %></th>
+        <th><%= t(:hex_color) %></th>
         <th></th>
       </tr>
     </thead>
     <tbody id="option_values">
       <tr id="none" data-hook="option_none">
-        <td colspan="3"><%= @option_type.option_values.empty? ? t(:none) : '' %></td>
+        <td colspan="7"><%= @option_type.option_values.empty? ? t(:none) : '' %></td>
       </tr>
       <%= f.fields_for :option_values do |option_value_form| %>
         <%= render :partial => 'option_value_fields', :locals => { :f => option_value_form } %>

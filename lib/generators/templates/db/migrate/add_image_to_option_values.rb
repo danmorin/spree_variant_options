@@ -4,5 +4,6 @@ class AddImageToOptionValues < ActiveRecord::Migration
     add_column :spree_option_values, :image_content_type, :string
     add_column :spree_option_values, :image_file_size,    :integer
     add_column :spree_option_values, :image_updated_at,   :datetime
+    add_column :spree_option_values, :hex_color,          :string
   end
 end
