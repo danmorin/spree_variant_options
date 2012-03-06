@@ -159,7 +159,7 @@ function VariantOptions(options, allow_backorders) {
       var image_ids = []
       $.each(variants, function(key, value) { image_ids.push(value.image_id) });
       if (image_ids.length > 0) {
-        select_image(image_ids[0]);
+        select_image_by_id(image_ids[0]);
       }
       
       return false;
@@ -174,7 +174,7 @@ function VariantOptions(options, allow_backorders) {
       $('button[type=submit]').attr('disabled', false).fadeTo(100, 1);
       try {
         //show_variant_images(variant.id);
-        select_image(variant.image_id);
+        select_image_by_id(variant.image_id);
       } catch(error) {
         // depends on modified version of product.js  
       }

@@ -1,39 +1,37 @@
-/* This shouldn't be used anymore */
-var show_variant_images = function(variant_id) {
-  $('li.vtmb').hide();
-  $('li.vtmb-' + variant_id).show();
-  var currentThumb = $('#' + $("#main-image").data('selectedThumbId'));
-  // if currently selected thumb does not belong to current variant, nor to common images,
-  // hide it and select the first available thumb instead.
-  if(!currentThumb.hasClass('vtmb-' + variant_id)) {
-    var thumb = $($("ul.thumbnails li.vtmb-" + variant_id + ":first").eq(0));
-    if (thumb.length == 0) {
-      thumb = $($('ul.thumbnails li:visible').eq(0));
-    }
-    var newImg = thumb.find('a').attr('href');
-    $('ul.thumbnails li').removeClass('selected');
-    thumb.addClass('selected');
-    $('#main-image img').attr('src', newImg);
-    $("#main-image").data('selectedThumb', newImg);
-    $("#main-image").data('selectedThumbId', thumb.attr('id'));
-  }
+var select_image_by_id = function(image_id) {
+  select_image($("#tmb-" + image_id));
 }
 
-var select_image = function(image_id) {
-  var currentThumb = $('#' + $("#main-image").data('selectedThumbId'));
-  var img = $("#tmb-" + image_id)
+var add_image_handlers = function() {
+  $("#main-image").data('selectedThumb', $('#main-image img').attr('src'));
+  $('ul.thumbnails li').eq(0).addClass('selected');
+
+  $('ul.thumbnails').delegate('a', 'click', function(event) {
+    select_image($(event.currentTarget).parent());
+    return false;
+  });
+};
+
+var select_image = function(img)
+{
+  var $main_image = $("#main-image");           // Container around the main image
+  var $main_image_link = $("#main-image-link"); // Link around the main image
+  var currentThumb = $('#' + $main_image.data('selectedThumbId'));
+
   if (img.length > 0 && img != currentThumb)
   {
     var thumb = $(img.eq(0));
-    var newImg = thumb.find('a').attr('href');
-    $('ul.thumbnails li').removeClass('selected');
-    thumb.addClass('selected');
-    $('#main-image img').attr('src', newImg);
-    $("#main-image").data('selectedThumb', newImg);
-    $("#main-image").data('selectedThumbId', thumb.attr('id'));
-  }
-}
+    var $thumb_link = thumb.find('a');
+    var original_img_url = $thumb_link.attr('href');
+    var product_img_url = $thumb_link.data("product-image");
 
-var show_all_variant_images = function() {
-  $('li.vtmb').show();
+    $('ul.thumbnails li.selected').removeClass('selected');
+    thumb.addClass('selected');
+    $main_image.data('selectedThumbId', thumb.attr('id'));
+
+    $('#main-image img').attr('src', product_img_url);
+    $("#main-image-link").attr('href', original_img_url);
+
+    $main_image.trigger('change');
+  }
 }
