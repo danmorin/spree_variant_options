@@ -3,7 +3,10 @@ Spree::Product.class_eval do
   include ActionView::Helpers::NumberHelper
 
   def option_values
-    option_types.map{|i| i.option_values }.flatten.uniq
+    # Sorting by presentation so color is always first. It would be nice
+    # to do this with acts_as_list, but we're always adding new option types
+    # so this easier for now.
+    option_types.sort{|a,b| a.presentation<=>b.presentation}.map{|i| i.option_values }.flatten.uniq
   end
   
   def grouped_option_values
