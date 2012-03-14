@@ -45,6 +45,7 @@ function VariantOptions(options, allow_backorders) {
     enable(parent.find('a.option-value'));
     toggle();
     $('.clear-option a.clear-button').hide().click(handle_clear);
+    initial_select();
   }
   
   function get_index(parent) {
@@ -229,7 +230,15 @@ function VariantOptions(options, allow_backorders) {
       toggle();
     }
   }
-    
+  
+  function initial_select()
+  {
+    var $first_option_values = $(".variant-options:first a.option-value");
+    if ($first_option_values.length == 1) {
+      $first_option_values.triggerHandler('click');
+    }
+  }
+  
   $(document).ready(init);
   
 };
