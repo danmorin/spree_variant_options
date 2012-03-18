@@ -20,7 +20,7 @@
               <% end %>
             <% end %>
           <li>
-            <%= link_to "#", :title=>value.presentation, :class=>classes.join(" "), :rel=>"#{type.id}-#{value.id}" do %>
+            <%= link_to "#", :title=>'', :class=>classes.join(" "), :rel=>"#{type.id}-#{value.id}" do %>
               <% if value.has_image? %>
                 <%= image_tag(value.image.url, :alt => value.presentation) %>
               <% elsif value.hex_color? %>
