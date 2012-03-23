@@ -45,6 +45,7 @@ function VariantOptions(options, allow_backorders) {
     enable(parent.find('a.option-value'));
     toggle();
     $('.clear-option a.clear-button').hide().click(handle_clear);
+    $('#cart-form form').on('submit', handle_submit);
     initial_select();
   }
   
@@ -172,20 +173,36 @@ function VariantOptions(options, allow_backorders) {
       quantity_dropdown(variant["count"])
       $('#variant_id').val(variant.id);
       $('#product-price .price').removeClass('unselected').text(variant.price);      
-      $('button[type=submit]').attr('disabled', false).fadeTo(100, 1);
+      $('button[type=submit]').removeClass('disabled').fadeTo(100, 1);
       try {
-        //show_variant_images(variant.id);
         select_image_by_id(variant.image_id);
-      } catch(error) {
-        // depends on modified version of product.js  
-      }
+      } catch(error) { }
     } else {
       $('#variant_id').val('');
-      $('button[type=submit]').attr('disabled', true).fadeTo(0, 0.5);
-      //$('#product-price .price').addClass('unselected').text('(select)');
+      $('button[type=submit]').addClass('disabled').fadeTo(0, 0.5);
       $('#product-price .price').addClass('unselected').text(base_price);
     }    
   }
+  
+  // function toggle() {
+  //   if (variant) {
+  //     quantity_dropdown(variant["count"])
+  //     $('#variant_id').val(variant.id);
+  //     $('#product-price .price').removeClass('unselected').text(variant.price);      
+  //     $('button[type=submit]').attr('disabled', false).fadeTo(100, 1);
+  //     try {
+  //       //show_variant_images(variant.id);
+  //       select_image_by_id(variant.image_id);
+  //     } catch(error) {
+  //       // depends on modified version of product.js  
+  //     }
+  //   } else {
+  //     $('#variant_id').val('');
+  //     $('button[type=submit]').attr('disabled', true).fadeTo(0, 0.5);
+  //     //$('#product-price .price').addClass('unselected').text('(select)');
+  //     $('#product-price .price').addClass('unselected').text(base_price);
+  //   }    
+  // }
   
   function quantity_dropdown(max_quantity) {
     var $quantity = $("#quantity");
@@ -228,6 +245,16 @@ function VariantOptions(options, allow_backorders) {
     advance();
     if (find_variant()) {
       toggle();
+    }
+  }
+  
+  function handle_submit(e)
+  {
+    // Don't allow form to be submitted if button has disabled class
+    if ($('button[type=submit]').hasClass('disabled')) {
+      e.stopPropagation();
+      e.preventDefault;
+      return false;
     }
   }
   
